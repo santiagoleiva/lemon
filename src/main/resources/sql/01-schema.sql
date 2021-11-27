@@ -1,25 +1,24 @@
-create table lemon.usuario
+create table lemon.user
 (
-    id       int auto_increment primary key,
-    nombre   varchar(50) not null,
-    apellido varchar(50) not null,
-    alias    varchar(30) not null,
-    email    varchar(60) not null,
-    constraint usuario_alias_uindex
+    id        int auto_increment primary key,
+    firstname varchar(50) not null,
+    lastname  varchar(50) not null,
+    alias     varchar(30) not null,
+    email     varchar(60) not null,
+    constraint user_alias_uindex
         unique (alias),
-    constraint usuario_email_uindex
+    constraint user_email_uindex
         unique (email),
-    constraint usuario_id_uindex
+    constraint user_id_uindex
         unique (id)
 );
 
-create table lemon.moneda
+create table lemon.currency
 (
-    id          smallint auto_increment
-        primary key,
-    codigo      varchar(6)         not null,
-    descripcion varchar(30)        null,
-    decimales   smallint default 0 not null,
-    constraint moneda_codigo_uindex
-        unique (codigo)
+    id          smallint auto_increment primary key,
+    code        varchar(6)         not null,
+    description varchar(30) null,
+    decimals    smallint default 0 not null,
+    constraint currency_code_uindex
+        unique (code)
 );
