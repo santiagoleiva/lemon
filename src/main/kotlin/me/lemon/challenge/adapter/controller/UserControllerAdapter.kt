@@ -6,6 +6,7 @@ import me.lemon.challenge.application.port.`in`.CreateUserPortIn
 import me.lemon.challenge.domain.CreateUserCommand
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -25,7 +26,7 @@ class UserControllerAdapter(
         .also { logger.info("Attempt to create user with request {}", it) }
         .let { createUserPortIn.execute(it.toDomain()) }
         .let { user -> UserControllerModel.from(user) }
-        .let { userControllerModel -> ResponseEntity.ok(userControllerModel) }
+        .let { controllerModel -> ResponseEntity(controllerModel, HttpStatus.CREATED) }
         .also { response -> logger.info("User created successfully: {}", response) }
 
     private fun CreateUserControllerModel.toDomain(): CreateUserCommand = CreateUserCommand(
