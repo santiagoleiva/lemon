@@ -22,3 +22,15 @@ create table lemon.currency
     constraint currency_code_uindex
         unique (code)
 );
+
+create table lemon.user_wallet
+(
+    user_id     int               not null,
+    currency_id smallint          not null,
+    balance     decimal default 0 not null check (balance >= 0),
+    constraint user_wallet_currency_id_fk
+        foreign key (currency_id) references currency (id),
+    constraint user_wallet_user_id_fk
+        foreign key (user_id) references user (id)
+);
+
