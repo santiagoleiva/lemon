@@ -13,3 +13,4 @@ services:
       MYSQL_PASSWORD: 'lemon'
     volumes:
       - './src/main/resources/sql/01-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql'
+      - './src/main/resources/sql/02-data.sql:/docker-entrypoint-initdb.d/02-data.sql'
