@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("api/v1/users")
 class UserControllerAdapter(
     private val createUserPortIn: CreateUserPortIn
-){
+) {
 
     @PostMapping
     fun createUser(
         @RequestBody request: CreateUserControllerModel
     ): ResponseEntity<UserControllerModel> = request
-        .also { logger.info("Attemp to create user with request {}", it) }
+        .also { logger.info("Attempt to create user with request {}", it) }
         .let { createUserPortIn.execute(it.toDomain()) }
         .let { user -> UserControllerModel.from(user) }
         .let { userControllerModel -> ResponseEntity.ok(userControllerModel) }
