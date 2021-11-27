@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  database:
+    image: mysql:8.0.27
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DATABASE: 'lemon'
+      MYSQL_ROOT_PASSWORD: 'lemon'
+      MYSQL_USER: 'lemon'
+      MYSQL_PASSWORD: 'lemon'
+    volumes:
+      - './src/main/resources/sql/01-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql'
