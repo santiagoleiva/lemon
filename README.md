@@ -1,4 +1,4 @@
-# Lemon - L1 Coding Challenge
+# Lemon 🍋 - L1 Coding Challenge
 
 [Link a consigna](https://www.notion.so/L1-Coding-Challenge-e691fc76ad924dd2b7d1a25ddcf6b69b)
 
