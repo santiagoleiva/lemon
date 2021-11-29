@@ -5,4 +5,10 @@ import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface UserJdbcRepository : PagingAndSortingRepository<UserJdbcModel, Int>
+interface UserJdbcRepository : PagingAndSortingRepository<UserJdbcModel, Int> {
+
+    fun existsByAlias(alias: String): Boolean
+
+    fun existsByEmail(email: String): Boolean
+
+}
