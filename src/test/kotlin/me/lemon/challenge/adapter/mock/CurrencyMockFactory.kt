@@ -24,13 +24,13 @@ object CurrencyMockFactory {
         decimals = defaultDecimals
     )
 
-    fun sampleCurrencyJdbc(): CurrencyJdbcModel = CurrencyJdbcModel(
+    fun currenciesJdbc(): List<CurrencyJdbcModel> = listOf(sampleCurrencyJdbc())
+
+    private fun sampleCurrencyJdbc(): CurrencyJdbcModel = CurrencyJdbcModel(
         id = defaultId,
         code = defaultCode,
         description = defaultDescription,
         decimals = defaultDecimals
     )
-
-    fun currenciesJdbc(): List<CurrencyJdbcModel> = listOf(sampleCurrencyJdbc())
 
 }
