@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserJdbcAdapter(
-    private val userJdbcRepository: UserJdbcRepository
+    private val userJdbcRepository: UserJdbcRepository,
+    private val currencyJdbcRepository: CurrencyJdbcRepository
 ) : UpsertUserPortOut, ExistsUserPortOut, QueryUserOutPort {
 
     override fun create(user: User): User = user

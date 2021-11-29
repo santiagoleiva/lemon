@@ -11,9 +11,11 @@ import org.mockito.Mockito.*
 class UserJdbcAdapterTest {
 
     private val userJdbcRepository = mock(UserJdbcRepository::class.java)
+    private val currencyJdbcRepository = mock(CurrencyJdbcRepository::class.java)
 
     private val userJdbcAdapter = UserJdbcAdapter(
-        userJdbcRepository = userJdbcRepository
+        userJdbcRepository = userJdbcRepository,
+        currencyJdbcRepository = currencyJdbcRepository
     )
 
     @Test
