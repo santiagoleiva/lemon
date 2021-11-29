@@ -46,6 +46,4 @@ class CreateUserUseCase(
         amount = amount
     )
 
-    private infix fun User.addToWallet(balances: List<Balance>) = this.wallet.addAll(balances)
-
 }
