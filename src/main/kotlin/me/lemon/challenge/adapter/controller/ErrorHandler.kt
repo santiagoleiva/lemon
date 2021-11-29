@@ -2,6 +2,7 @@ package me.lemon.challenge.adapter.controller
 
 import me.lemon.challenge.adapter.controller.model.ApiErrorControllerModel
 import me.lemon.challenge.config.ErrorCatalog
+import me.lemon.challenge.config.exception.GenericException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -15,11 +16,22 @@ class ErrorHandler {
 
     @ExceptionHandler(Throwable::class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    fun handleThrowable(ex: Throwable): ResponseEntity<ApiErrorControllerModel> {
-        logger.error("Handle exception: {}", ex.localizedMessage, ex)
+    fun handleThrowable(throwable: Throwable): ResponseEntity<ApiErrorControllerModel> {
+        logger.error("Handling exception: {}", throwable.localizedMessage, throwable)
         val error = ApiErrorControllerModel(
             code = ErrorCatalog.INTERNAL_ERROR.name,
             message = ErrorCatalog.INTERNAL_ERROR.defaultMessage
+        )
+        return ResponseEntity.internalServerError().body(error)
+    }
+
+    @ExceptionHandler(GenericException::class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    fun handleGenericException(exception: GenericException): ResponseEntity<ApiErrorControllerModel> {
+        logger.error("Handling generic exception: {}", exception.message, exception)
+        val error = ApiErrorControllerModel(
+            code = exception.code,
+            message = exception.message
         )
         return ResponseEntity.internalServerError().body(error)
     }
