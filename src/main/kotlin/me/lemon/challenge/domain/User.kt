@@ -1,12 +1,10 @@
 package me.lemon.challenge.domain
 
-import java.util.Collections.emptyList
-
 data class User(
-    val id: Int,
+    val id: Int? = null,
     val firstname: String,
     val lastname: String,
     val alias: String,
     val email: String,
-    val wallet: List<Balance> = emptyList()
+    val wallet: List<Balance> = mutableListOf()
 )
