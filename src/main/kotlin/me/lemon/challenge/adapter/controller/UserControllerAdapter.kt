@@ -3,19 +3,18 @@ package me.lemon.challenge.adapter.controller
 import me.lemon.challenge.adapter.controller.model.CreateUserControllerModel
 import me.lemon.challenge.adapter.controller.model.UserControllerModel
 import me.lemon.challenge.application.port.`in`.CreateUserPortIn
+import me.lemon.challenge.application.port.`in`.GetUserByIdPortIn
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("api/v1/users")
 class UserControllerAdapter(
-    private val createUserPortIn: CreateUserPortIn
+    private val createUserPortIn: CreateUserPortIn,
+    private val getUserByIdPortIn: GetUserByIdPortIn
 ) {
 
     @PostMapping
@@ -27,6 +26,16 @@ class UserControllerAdapter(
         .let { user -> UserControllerModel.from(user) }
         .let { controllerModel -> ResponseEntity(controllerModel, HttpStatus.CREATED) }
         .also { response -> logger.info("User created successfully: {}", response) }
+
+    @GetMapping("/{id}")
+    fun getUserById(
+        @PathVariable id: Int
+    ): ResponseEntity<UserControllerModel> = id
+        .also { logger.info("Attempt to get user with id {}", it) }
+        .let { getUserByIdPortIn.execute(it) }
+        .let { user -> UserControllerModel.from(user) }
+        .let { userControllerModel -> ResponseEntity.ok(userControllerModel) }
+        .also { response -> logger.info("User obtained successfully: {}", response) }
 
     private fun CreateUserControllerModel.toDomain(): CreateUserPortIn.Command = CreateUserPortIn.Command(
         firstname = this.firstname,
