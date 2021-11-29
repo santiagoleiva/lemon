@@ -6,5 +6,5 @@ data class User(
     val lastname: String,
     val alias: String,
     val email: String,
-    val wallet: List<Balance> = mutableListOf()
+    val wallet: MutableList<Balance> = mutableListOf()
 )
