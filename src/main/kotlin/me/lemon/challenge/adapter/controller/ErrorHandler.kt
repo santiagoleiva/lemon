@@ -3,6 +3,7 @@ package me.lemon.challenge.adapter.controller
 import me.lemon.challenge.adapter.controller.model.ApiErrorControllerModel
 import me.lemon.challenge.config.ErrorCatalog
 import me.lemon.challenge.config.exception.GenericException
+import me.lemon.challenge.config.exception.ResourceNotFoundException
 import me.lemon.challenge.config.exception.UnprocessableEntityException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -46,6 +47,17 @@ class ErrorHandler {
             message = exception.message
         )
         return ResponseEntity.unprocessableEntity().body(error)
+    }
+
+    @ExceptionHandler(ResourceNotFoundException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun handleNotFound(exception: ResourceNotFoundException): ResponseEntity<ApiErrorControllerModel> {
+        logger.error("Handling resource not found: {}", exception.message, exception)
+        val error = ApiErrorControllerModel(
+            code = exception.code,
+            message = exception.message
+        )
+        return ResponseEntity(error, HttpStatus.NOT_FOUND)
     }
 
     companion object {
