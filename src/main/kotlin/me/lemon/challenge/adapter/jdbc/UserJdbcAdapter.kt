@@ -16,7 +16,7 @@ class UserJdbcAdapter(
     override fun create(user: User): User = user
         .toJdbcModel()
         .let { userJdbcRepository.save(it) }
-        .toDomain()
+        .let { user.copy(id = it.id) }
 
     private fun User.toJdbcModel(): UserJdbcModel = UserJdbcModel(
         firstname = this.firstname,
@@ -33,14 +33,6 @@ class UserJdbcAdapter(
     private fun Balance.toWalletReferenceModel(): WalletReferenceJdbcModel = WalletReferenceJdbcModel(
         currencyId = this.currency.id,
         balance = this.amount
-    )
-
-    private fun UserJdbcModel.toDomain(): User = User(
-        id = this.id!!,
-        firstname = this.firstname,
-        lastname = this.lastname,
-        alias = this.alias,
-        email = this.email
     )
 
 }

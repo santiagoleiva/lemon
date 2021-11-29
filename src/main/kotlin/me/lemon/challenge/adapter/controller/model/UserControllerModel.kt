@@ -10,7 +10,8 @@ data class UserControllerModel(
     val firstname: String,
     val lastname: String,
     val alias: String,
-    val email: String
+    val email: String,
+    val wallet: List<WalletItemControllerModel>
 ) {
 
     companion object {
@@ -20,7 +21,8 @@ data class UserControllerModel(
             firstname = domain.firstname,
             lastname = domain.lastname,
             alias = domain.alias,
-            email = domain.email
+            email = domain.email,
+            wallet = domain.wallet.map { WalletItemControllerModel.from(it) }
         )
 
     }
