@@ -1,4 +1,4 @@
-package me.lemon.challenge.adapter.mock
+package me.lemon.challenge.mock
 
 import me.lemon.challenge.adapter.jdbc.model.CurrencyJdbcModel
 import me.lemon.challenge.domain.Currency

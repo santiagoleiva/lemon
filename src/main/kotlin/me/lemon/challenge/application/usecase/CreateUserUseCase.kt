@@ -19,12 +19,11 @@ class CreateUserUseCase(
     private val existsUserAdapter: ExistsUserPortOut
 ) : CreateUserPortIn {
 
-    override fun execute(command: CreateUserPortIn.Command): User {
-        doValidations(command)
-        val user = command.toDomain()
-        user.addToWallet(getInitialBalances())
-        return upsertUserAdapter.create(user)
-    }
+    override fun execute(command: CreateUserPortIn.Command): User = command
+        .also { doValidations(it) }
+        .toDomain()
+        .apply { addToWallet(getInitialBalances()) }
+        .let { upsertUserAdapter.create(it) }
 
     private fun doValidations(command: CreateUserPortIn.Command) {
         if (existsUserAdapter.byAlias(command.alias)) throw UserAliasUnavailableException()

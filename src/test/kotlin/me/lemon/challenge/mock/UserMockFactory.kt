@@ -1,4 +1,4 @@
-package me.lemon.challenge.adapter.mock
+package me.lemon.challenge.mock
 
 import me.lemon.challenge.adapter.jdbc.model.UserJdbcModel
 import me.lemon.challenge.domain.User

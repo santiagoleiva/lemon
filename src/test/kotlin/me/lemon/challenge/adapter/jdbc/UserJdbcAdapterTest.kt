@@ -1,6 +1,6 @@
 package me.lemon.challenge.adapter.jdbc
 
-import me.lemon.challenge.adapter.mock.UserMockFactory
+import me.lemon.challenge.mock.UserMockFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName

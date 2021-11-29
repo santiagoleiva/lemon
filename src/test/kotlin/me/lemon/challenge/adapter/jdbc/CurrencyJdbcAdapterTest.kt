@@ -1,6 +1,6 @@
 package me.lemon.challenge.adapter.jdbc
 
-import me.lemon.challenge.adapter.mock.CurrencyMockFactory
+import me.lemon.challenge.mock.CurrencyMockFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
