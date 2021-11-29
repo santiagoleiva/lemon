@@ -31,7 +31,7 @@ class CreateUserUseCase(
     }
 
     private fun getInitialBalances(): List<Balance> = queryCurrencyAdapter
-        .query()
+        .all()
         .map { it toBalanceWithAmount BigDecimal.ZERO }
 
     private fun CreateUserPortIn.Command.toDomain(): User = User(

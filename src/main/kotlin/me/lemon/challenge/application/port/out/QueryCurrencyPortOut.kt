@@ -4,6 +4,6 @@ import me.lemon.challenge.domain.Currency
 
 interface QueryCurrencyPortOut {
 
-    fun query(): List<Currency>
+    fun all(): List<Currency>
 
 }

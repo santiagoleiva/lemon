@@ -10,7 +10,7 @@ class CurrencyJdbcAdapter(
     private val currencyJdbcRepository: CurrencyJdbcRepository
 ) : QueryCurrencyPortOut {
 
-    override fun query(): List<Currency> = currencyJdbcRepository
+    override fun all(): List<Currency> = currencyJdbcRepository
         .findAll()
         .map { it.toDomain() }
 

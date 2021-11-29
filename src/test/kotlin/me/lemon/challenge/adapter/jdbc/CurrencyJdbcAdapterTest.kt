@@ -19,14 +19,14 @@ class CurrencyJdbcAdapterTest {
     )
 
     @Test
-    @DisplayName("When query() is executed, CurrencyJdbcRepository.findAll() should be invoked.")
+    @DisplayName("When all() is executed, CurrencyJdbcRepository.findAll() should be invoked.")
     fun testQueryCurrencies() {
         val mockedJdbcCurrencies = CurrencyMockFactory.currenciesJdbc()
         val expectedCurrency = CurrencyMockFactory.sampleCurrency()
 
         `when`(currencyJdbcRepository.findAll()).thenReturn(mockedJdbcCurrencies)
 
-        val result = currencyAdapter.query()
+        val result = currencyAdapter.all()
 
         assertThat(result).contains(expectedCurrency)
 
