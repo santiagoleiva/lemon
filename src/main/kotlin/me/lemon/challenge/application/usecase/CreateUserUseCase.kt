@@ -10,6 +10,16 @@ class CreateUserUseCase(
     private val userJdbcAdapter: UpsertUserPortOut
 ) : CreateUserPortIn {
 
-    override fun execute(command: CreateUserPortIn.Command): User = TODO()
+    override fun execute(command: CreateUserPortIn.Command): User {
+        val user = command.toDomain()
+        return userJdbcAdapter.create(user)
+    }
+
+    private fun CreateUserPortIn.Command.toDomain(): User = User(
+        firstname = this.firstname,
+        lastname = this.lastname,
+        alias = this.alias,
+        email = this.email
+    )
 
 }

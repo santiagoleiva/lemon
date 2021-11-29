@@ -16,7 +16,7 @@ data class UserControllerModel(
     companion object {
 
         fun from(domain: User): UserControllerModel = UserControllerModel(
-            id = domain.id,
+            id = domain.id!!,
             firstname = domain.firstname,
             lastname = domain.lastname,
             alias = domain.alias,
