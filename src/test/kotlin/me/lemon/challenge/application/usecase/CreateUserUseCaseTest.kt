@@ -2,7 +2,7 @@ package me.lemon.challenge.application.usecase
 
 import me.lemon.challenge.application.port.`in`.CreateUserPortIn
 import me.lemon.challenge.application.port.out.ExistsUserPortOut
-import me.lemon.challenge.application.port.out.QueryCurrencyPortOut
+import me.lemon.challenge.application.port.out.FindCurrencyPortOut
 import me.lemon.challenge.application.port.out.UpsertUserPortOut
 import me.lemon.challenge.config.ErrorCatalog
 import me.lemon.challenge.config.exception.UserAliasUnavailableException
@@ -18,12 +18,12 @@ import org.mockito.Mockito.*
 class CreateUserUseCaseTest {
 
     private val upsertUserAdapter: UpsertUserPortOut = mock(UpsertUserPortOut::class.java)
-    private val queryCurrencyAdapter: QueryCurrencyPortOut = mock(QueryCurrencyPortOut::class.java)
+    private val findCurrencyAdapter: FindCurrencyPortOut = mock(FindCurrencyPortOut::class.java)
     private val existsUserAdapter: ExistsUserPortOut = mock(ExistsUserPortOut::class.java)
 
     private val useCase: CreateUserPortIn = CreateUserUseCase(
         upsertUserAdapter = upsertUserAdapter,
-        queryCurrencyAdapter = queryCurrencyAdapter,
+        findCurrencyAdapter = findCurrencyAdapter,
         existsUserAdapter = existsUserAdapter
     )
 

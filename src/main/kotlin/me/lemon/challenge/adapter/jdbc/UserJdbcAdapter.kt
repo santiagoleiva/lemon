@@ -4,7 +4,7 @@ import me.lemon.challenge.adapter.jdbc.model.CurrencyJdbcModel
 import me.lemon.challenge.adapter.jdbc.model.UserJdbcModel
 import me.lemon.challenge.adapter.jdbc.model.WalletReferenceJdbcModel
 import me.lemon.challenge.application.port.out.ExistsUserPortOut
-import me.lemon.challenge.application.port.out.QueryUserOutPort
+import me.lemon.challenge.application.port.out.FindUserOutPort
 import me.lemon.challenge.application.port.out.UpsertUserPortOut
 import me.lemon.challenge.config.exception.UserNotFoundException
 import me.lemon.challenge.domain.Balance
@@ -17,7 +17,7 @@ import java.math.BigDecimal
 class UserJdbcAdapter(
     private val userJdbcRepository: UserJdbcRepository,
     private val currencyJdbcRepository: CurrencyJdbcRepository
-) : UpsertUserPortOut, ExistsUserPortOut, QueryUserOutPort {
+) : UpsertUserPortOut, ExistsUserPortOut, FindUserOutPort {
 
     override fun create(user: User): User = user
         .toJdbcModel()

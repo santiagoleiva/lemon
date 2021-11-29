@@ -2,7 +2,7 @@ package me.lemon.challenge.application.usecase
 
 import me.lemon.challenge.application.port.`in`.CreateUserPortIn
 import me.lemon.challenge.application.port.out.ExistsUserPortOut
-import me.lemon.challenge.application.port.out.QueryCurrencyPortOut
+import me.lemon.challenge.application.port.out.FindCurrencyPortOut
 import me.lemon.challenge.application.port.out.UpsertUserPortOut
 import me.lemon.challenge.config.exception.UserAliasUnavailableException
 import me.lemon.challenge.config.exception.UserEmailUnavailableException
@@ -15,7 +15,7 @@ import java.math.BigDecimal
 @Component
 class CreateUserUseCase(
     private val upsertUserAdapter: UpsertUserPortOut,
-    private val queryCurrencyAdapter: QueryCurrencyPortOut,
+    private val findCurrencyAdapter: FindCurrencyPortOut,
     private val existsUserAdapter: ExistsUserPortOut
 ) : CreateUserPortIn {
 
@@ -30,7 +30,7 @@ class CreateUserUseCase(
         if (existsUserAdapter.byEmail(command.email)) throw UserEmailUnavailableException()
     }
 
-    private fun getInitialBalances(): List<Balance> = queryCurrencyAdapter
+    private fun getInitialBalances(): List<Balance> = findCurrencyAdapter
         .all()
         .map { it toBalanceWithAmount BigDecimal.ZERO }
 
