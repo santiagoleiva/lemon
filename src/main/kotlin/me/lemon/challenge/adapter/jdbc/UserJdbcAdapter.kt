@@ -3,7 +3,9 @@ package me.lemon.challenge.adapter.jdbc
 import me.lemon.challenge.adapter.jdbc.model.UserJdbcModel
 import me.lemon.challenge.adapter.jdbc.model.WalletReferenceJdbcModel
 import me.lemon.challenge.application.port.out.ExistsUserPortOut
+import me.lemon.challenge.application.port.out.QueryUserOutPort
 import me.lemon.challenge.application.port.out.UpsertUserPortOut
+import me.lemon.challenge.config.exception.UserNotFoundException
 import me.lemon.challenge.domain.Balance
 import me.lemon.challenge.domain.User
 import org.springframework.stereotype.Component
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Component
 @Component
 class UserJdbcAdapter(
     private val userJdbcRepository: UserJdbcRepository
-) : UpsertUserPortOut, ExistsUserPortOut {
+) : UpsertUserPortOut, ExistsUserPortOut, QueryUserOutPort {
 
     override fun create(user: User): User = user
         .toJdbcModel()
@@ -21,6 +23,11 @@ class UserJdbcAdapter(
     override fun byAlias(alias: String): Boolean = userJdbcRepository.existsByAlias(alias)
 
     override fun byEmail(email: String): Boolean = userJdbcRepository.existsByEmail(email)
+
+    override fun by(id: Int): User = userJdbcRepository
+        .findById(id)
+        .map { it.toDomain() }
+        .orElseThrow { UserNotFoundException() }
 
     private fun User.toJdbcModel(): UserJdbcModel = UserJdbcModel(
         firstname = this.firstname,
@@ -37,6 +44,14 @@ class UserJdbcAdapter(
     private fun Balance.toWalletReferenceModel(): WalletReferenceJdbcModel = WalletReferenceJdbcModel(
         currencyId = this.currency.id,
         balance = this.amount
+    )
+
+    private fun UserJdbcModel.toDomain(): User = User(
+        id = this.id,
+        firstname = this.firstname,
+        lastname = this.lastname,
+        alias = this.alias,
+        email = this.email
     )
 
 }
