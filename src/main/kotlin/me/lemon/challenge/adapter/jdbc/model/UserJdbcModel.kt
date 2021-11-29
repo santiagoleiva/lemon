@@ -1,6 +1,7 @@
 package me.lemon.challenge.adapter.jdbc.model
 
 import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.MappedCollection
 import org.springframework.data.relational.core.mapping.Table
 
 @Table("user")
@@ -9,5 +10,7 @@ data class UserJdbcModel(
     val firstname: String,
     val lastname: String,
     val alias: String,
-    val email: String
+    val email: String,
+    @MappedCollection(idColumn = "user_id")
+    val wallet: Set<WalletReferenceJdbcModel> = setOf()
 )
