@@ -22,7 +22,7 @@ data class UserControllerModel(
             lastname = domain.lastname,
             alias = domain.alias,
             email = domain.email,
-            wallet = domain.wallet.map { WalletItemControllerModel.from(it) }
+            wallet = domain.wallet.balances.map { WalletItemControllerModel.from(it) }
         )
 
     }

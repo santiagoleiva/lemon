@@ -6,9 +6,9 @@ data class User(
     val lastname: String,
     val alias: String,
     val email: String,
-    val wallet: MutableList<Balance> = mutableListOf()
+    val wallet: Wallet = Wallet.empty()
 ) {
 
-    fun addToWallet(balances: List<Balance>) = this.wallet.addAll(balances)
+    fun addToWallet(balances: List<Balance>) = this.wallet.add(balances)
 
 }

@@ -25,7 +25,7 @@ object UserMockFactory {
         lastname = defaultLastname,
         alias = defaultAlias,
         email = defaultEmail,
-        wallet = mutableListOf(WalletMockFactory.sampleBalance())
+        wallet = WalletMockFactory.sampleWallet()
     )
 
     fun createdWithId(id: Int = defaultId): User = toCreate()

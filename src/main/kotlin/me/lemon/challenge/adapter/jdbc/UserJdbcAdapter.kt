@@ -10,6 +10,7 @@ import me.lemon.challenge.config.exception.UserNotFoundException
 import me.lemon.challenge.domain.Balance
 import me.lemon.challenge.domain.Currency
 import me.lemon.challenge.domain.User
+import me.lemon.challenge.domain.Wallet
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 
@@ -41,7 +42,8 @@ class UserJdbcAdapter(
         wallet = this.wallet.toWalletReference()
     )
 
-    private fun List<Balance>.toWalletReference(): Set<WalletReferenceJdbcModel> = this
+    private fun Wallet.toWalletReference(): Set<WalletReferenceJdbcModel> = this
+        .balances
         .map { balance -> balance.toWalletReferenceModel() }
         .toSet()
 
@@ -59,12 +61,13 @@ class UserJdbcAdapter(
         wallet = this.wallet.toDomain()
     )
 
-    private fun Iterable<WalletReferenceJdbcModel>.toDomain(): MutableList<Balance> {
+    private fun Iterable<WalletReferenceJdbcModel>.toDomain(): Wallet {
         val walletReferences = this.associate { it.currencyId to it.balance }
         return currencyJdbcRepository
             .findAllById(walletReferences.keys)
             .map { it.toBalanceWithAmount(walletReferences.getOrDefault(it.id, BigDecimal.ZERO)) }
             .toMutableList()
+            .let { balances -> Wallet(balances = balances) }
     }
 
     private fun CurrencyJdbcModel.toBalanceWithAmount(
