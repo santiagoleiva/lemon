@@ -22,7 +22,7 @@ class UserControllerAdapter(
         @RequestBody request: CreateUserControllerModel
     ): ResponseEntity<UserControllerModel> = request
         .also { logger.info("Attempt to create user with request {}", it) }
-        .let { createUserPortIn.execute(it.toDomain()) }
+        .let { createUserPortIn.execute(it.toCommand()) }
         .let { user -> UserControllerModel.from(user) }
         .let { controllerModel -> ResponseEntity(controllerModel, HttpStatus.CREATED) }
         .also { response -> logger.info("User created successfully: {}", response) }
@@ -37,7 +37,7 @@ class UserControllerAdapter(
         .let { userControllerModel -> ResponseEntity.ok(userControllerModel) }
         .also { response -> logger.info("User obtained successfully: {}", response) }
 
-    private fun CreateUserControllerModel.toDomain(): CreateUserPortIn.Command = CreateUserPortIn.Command(
+    private fun CreateUserControllerModel.toCommand(): CreateUserPortIn.Command = CreateUserPortIn.Command(
         firstname = this.firstname,
         lastname = this.lastname,
         alias = this.alias,

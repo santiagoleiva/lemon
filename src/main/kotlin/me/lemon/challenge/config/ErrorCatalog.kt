@@ -4,6 +4,7 @@ enum class ErrorCatalog(
     val defaultMessage: String
 ) {
 
+    CURRENCY_NOT_FOUND("No se ha encontrado la moneda"),
     INTERNAL_ERROR("Ha ocurrido un error inesperado"),
     RESOURCE_NOT_FOUND("No se ha encontrado el recurso solicitado"),
     UNPROCESSABLE_ENTITY("No es posible procesar la entidad"),
