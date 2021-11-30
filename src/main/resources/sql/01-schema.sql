@@ -25,9 +25,9 @@ create table lemon.currency
 
 create table lemon.user_wallet
 (
-    user_id     int               not null,
-    currency_id smallint          not null,
-    balance     decimal(15, 8) default 0 not null check (balance >= 0),
+    user_id     int                      not null,
+    currency_id smallint                 not null,
+    balance     decimal(16, 8) default 0 not null check (balance >= 0),
     constraint user_wallet_currency_id_fk
         foreign key (currency_id) references currency (id),
     constraint user_wallet_user_id_fk
@@ -37,11 +37,12 @@ create table lemon.user_wallet
 create table lemon.movement
 (
     id               bigint auto_increment primary key,
-    user_id          int               not null,
-    currency_id      smallint          not null,
-    amount           decimal(15, 8) default 0 not null,
-    previous_balance decimal(15, 8) default 0 not null,
-    created_at       datetime          not null default now(),
+    user_id          int                      not null,
+    currency_id      smallint                 not null,
+    type             varchar(10)              not null,
+    amount           decimal(16, 8) default 0 not null,
+    previous_balance decimal(16, 8) default 0 not null,
+    created_at       datetime                 not null default now(),
     constraint user_movement_user_id_fk
         foreign key (user_id) references user (id),
     constraint currency_movement_id_fk

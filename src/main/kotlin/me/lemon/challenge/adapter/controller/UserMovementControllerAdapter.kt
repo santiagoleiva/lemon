@@ -29,7 +29,7 @@ class UserMovementControllerAdapter(
     ): RegisterMovementPortIn.Command = RegisterMovementPortIn.Command(
         userId = userId,
         currencyCode = request.currencyCode,
-        movementType = request.currencyCode,
+        movementType = request.movementType.uppercase(),
         amount = request.amount
     )
 
