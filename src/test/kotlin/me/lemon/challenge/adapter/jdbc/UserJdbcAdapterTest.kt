@@ -1,12 +1,9 @@
 package me.lemon.challenge.adapter.jdbc
 
-import me.lemon.challenge.config.ErrorCatalog
-import me.lemon.challenge.config.exception.UserNotFoundException
 import me.lemon.challenge.mock.CurrencyMockFactory
 import me.lemon.challenge.mock.UserMockFactory
 import me.lemon.challenge.mock.WalletMockFactory
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.catchThrowable
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
@@ -67,19 +64,13 @@ class UserJdbcAdapterTest {
     }
 
     @Test
-    @DisplayName("When user is not present, an UserNotFoundException should be thrown.")
+    @DisplayName("When user is not present, the adapter should return an empty optional.")
     fun testFindUserByIdError() {
         val userId = 1
 
         `when`(userJdbcRepository.findById(anyInt())).thenReturn(Optional.empty())
 
-        val exception = catchThrowable {
-            userJdbcAdapter.by(userId)
-        }
-
-        assertThat(exception)
-            .isInstanceOf(UserNotFoundException::class.java)
-            .hasMessage(ErrorCatalog.USER_NOT_FOUND.defaultMessage)
+        assertThat(userJdbcAdapter.by(userId)).isEmpty
     }
 
     @Test
@@ -95,12 +86,16 @@ class UserJdbcAdapterTest {
 
         val result = userJdbcAdapter.by(userId)
 
-        assertEquals(1, result.id)
-        assertEquals("user-firstname-test", result.firstname)
-        assertEquals("user-lastname-test", result.lastname)
-        assertEquals("alias-test", result.alias)
-        assertEquals("test@lemon.com", result.email)
-        assertEquals(expectedUserWallet, result.wallet)
+        assertThat(result)
+            .isNotEmpty
+            .hasValueSatisfying {
+                assertEquals(1, it.id)
+                assertEquals("user-firstname-test", it.firstname)
+                assertEquals("user-lastname-test", it.lastname)
+                assertEquals("alias-test", it.alias)
+                assertEquals("test@lemon.com", it.email)
+                assertEquals(expectedUserWallet, it.wallet)
+            }
     }
 
 }

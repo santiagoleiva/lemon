@@ -6,13 +6,13 @@ import me.lemon.challenge.adapter.jdbc.model.WalletReferenceJdbcModel
 import me.lemon.challenge.application.port.out.ExistsUserPortOut
 import me.lemon.challenge.application.port.out.FindUserOutPort
 import me.lemon.challenge.application.port.out.UpsertUserPortOut
-import me.lemon.challenge.config.exception.UserNotFoundException
 import me.lemon.challenge.domain.Balance
 import me.lemon.challenge.domain.Currency
 import me.lemon.challenge.domain.User
 import me.lemon.challenge.domain.Wallet
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
+import java.util.*
 
 @Component
 class UserJdbcAdapter(
@@ -29,10 +29,9 @@ class UserJdbcAdapter(
 
     override fun byEmail(email: String): Boolean = userJdbcRepository.existsByEmail(email)
 
-    override fun by(id: Int): User = userJdbcRepository
+    override fun by(id: Int): Optional<User> = userJdbcRepository
         .findById(id)
         .map { jdbcModel -> jdbcModel.toDomain() }
-        .orElseThrow { UserNotFoundException() }
 
     private fun User.toJdbcModel(): UserJdbcModel = UserJdbcModel(
         firstname = this.firstname,
