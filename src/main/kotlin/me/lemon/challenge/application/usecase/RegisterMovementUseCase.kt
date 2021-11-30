@@ -27,18 +27,13 @@ class RegisterMovementUseCase(
 ) : RegisterMovementPortIn {
 
     override fun execute(command: RegisterMovementPortIn.Command): Movement {
-        val user = findUser(command.userId)
         val currency = findCurrency(command.currencyCode)
-        val type = typeBy(command.movementType)
+        val movementAmount = command.amount
+        val type = typeByCode(command.movementType)
+        val user = findUser(command.userId)
         val currentAmount = user.getCurrentAmountInWalletFor(currency)
-        val newBalanceAmount = calculateByType(type, currentAmount, command.amount)
-        return Movement(
-            user = user,
-            currency = currency,
-            type = type,
-            amount = command.amount,
-            previousBalance = currentAmount
-        )
+        val newBalanceAmount = calculateByType(type, currentAmount, movementAmount)
+        return Movement(user, currency, type, movementAmount, currentAmount)
             .also { updateBalanceAdapter.by(it.user, it.currency, newBalanceAmount) }
             .also { registerMovementAdapter.with(it) }
     }
@@ -51,7 +46,7 @@ class RegisterMovementUseCase(
         .by(currencyCode)
         .orElseThrow { InvalidCurrencyException() }
 
-    private fun typeBy(code: String) = try {
+    private fun typeByCode(code: String) = try {
         MovementType.valueOf(code)
     } catch (exception: IllegalArgumentException) {
         logger.error("Invalid movement type {}", code, exception)
