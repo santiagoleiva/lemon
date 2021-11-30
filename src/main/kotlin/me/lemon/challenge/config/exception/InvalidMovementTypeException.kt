@@ -5,7 +5,7 @@ import me.lemon.challenge.config.ErrorCatalog
 class InvalidMovementTypeException(
     code: String = ErrorCatalog.INVALID_MOVEMENT_TYPE.name,
     message: String = ErrorCatalog.INVALID_MOVEMENT_TYPE.defaultMessage
-) : UnprocessableEntityException(
+) : BadRequestException(
     code = code,
     message = message
 )

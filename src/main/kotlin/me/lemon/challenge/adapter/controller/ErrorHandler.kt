@@ -2,6 +2,7 @@ package me.lemon.challenge.adapter.controller
 
 import me.lemon.challenge.adapter.controller.model.ApiErrorControllerModel
 import me.lemon.challenge.config.ErrorCatalog
+import me.lemon.challenge.config.exception.BadRequestException
 import me.lemon.challenge.config.exception.GenericException
 import me.lemon.challenge.config.exception.ResourceNotFoundException
 import me.lemon.challenge.config.exception.UnprocessableEntityException
@@ -36,6 +37,17 @@ class ErrorHandler {
             message = exception.message
         )
         return ResponseEntity.internalServerError().body(error)
+    }
+
+    @ExceptionHandler(BadRequestException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handleBadRequest(exception: BadRequestException): ResponseEntity<ApiErrorControllerModel> {
+        logger.error("Handling bad request exception: {}", exception.message, exception)
+        val error = ApiErrorControllerModel(
+            code = exception.code,
+            message = exception.message
+        )
+        return ResponseEntity.badRequest().body(error)
     }
 
     @ExceptionHandler(UnprocessableEntityException::class)

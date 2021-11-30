@@ -40,7 +40,7 @@ class RegisterMovementUseCase(
 
     private fun findCurrency(currencyCode: String): Currency = findCurrencyAdapter
         .by(currencyCode)
-        .orElseThrow { CurrencyNotFoundException() }
+        .orElseThrow { InvalidCurrencyException() }
 
     private fun typeBy(code: String) = try {
         MovementType.valueOf(code)
