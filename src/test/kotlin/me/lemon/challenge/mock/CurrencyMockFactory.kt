@@ -2,6 +2,7 @@ package me.lemon.challenge.mock
 
 import me.lemon.challenge.adapter.jdbc.model.CurrencyJdbcModel
 import me.lemon.challenge.domain.Currency
+import java.util.Collections.singletonList
 
 object CurrencyMockFactory {
 
@@ -23,6 +24,8 @@ object CurrencyMockFactory {
         description = defaultDescription,
         decimals = defaultDecimals
     )
+
+    fun sampleCurrencies(): List<Currency> = singletonList(sampleCurrency())
 
     fun currenciesJdbc(): List<CurrencyJdbcModel> = listOf(sampleCurrencyJdbc())
 

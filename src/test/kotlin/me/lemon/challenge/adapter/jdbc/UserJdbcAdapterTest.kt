@@ -31,7 +31,7 @@ class UserJdbcAdapterTest {
         val userToCreate = UserMockFactory.toCreate()
         val expectedCreatedUser = UserMockFactory.createdWithId()
         val mockedUserJdbc = UserMockFactory.sampleUserJdbc()
-        val expectedModelToSave = mockedUserJdbc.copy(id = null)
+        val expectedModelToSave = UserMockFactory.sampleUserJdbcToCreate()
 
         `when`(userJdbcRepository.save(any())).thenReturn(mockedUserJdbc)
 

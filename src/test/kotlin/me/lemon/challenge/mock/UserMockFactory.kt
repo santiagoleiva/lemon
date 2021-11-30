@@ -25,7 +25,7 @@ object UserMockFactory {
         lastname = defaultLastname,
         alias = defaultAlias,
         email = defaultEmail,
-        wallet = WalletMockFactory.sampleWallet()
+        wallet = WalletMockFactory.sampleWalletInZero()
     )
 
     fun createdWithId(id: Int = defaultId): User = toCreate()
@@ -39,5 +39,11 @@ object UserMockFactory {
         email = defaultEmail,
         wallet = setOf(WalletMockFactory.sampleWalletReferenceJdbc())
     )
+
+    fun sampleUserJdbcToCreate(): UserJdbcModel = sampleUserJdbc()
+        .copy(
+            id = null,
+            wallet = setOf(WalletMockFactory.sampleWalletReferenceJdbcInZero())
+        )
 
 }

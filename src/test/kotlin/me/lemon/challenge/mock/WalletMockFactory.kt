@@ -18,9 +18,18 @@ object WalletMockFactory {
         balances = mutableListOf(sampleBalance())
     )
 
+    fun sampleWalletInZero(): Wallet = Wallet(
+        balances = mutableListOf(Balance(defaultCurrency, BigDecimal.ZERO))
+    )
+
     fun sampleWalletReferenceJdbc(): WalletReferenceJdbcModel = WalletReferenceJdbcModel(
         currencyId = defaultCurrency.id,
         balance = defaultAmount
+    )
+
+    fun sampleWalletReferenceJdbcInZero(): WalletReferenceJdbcModel = WalletReferenceJdbcModel(
+        currencyId = defaultCurrency.id,
+        balance = BigDecimal.ZERO
     )
 
     private fun sampleBalance(): Balance = Balance(
