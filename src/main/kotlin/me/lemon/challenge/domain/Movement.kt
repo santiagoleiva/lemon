@@ -4,6 +4,7 @@ import java.math.BigDecimal
 
 data class Movement(
     val user: User,
+    val currency: Currency,
     val type: MovementType,
     val amount: BigDecimal
 )
