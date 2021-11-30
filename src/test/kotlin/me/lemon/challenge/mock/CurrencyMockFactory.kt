@@ -29,7 +29,7 @@ object CurrencyMockFactory {
 
     fun currenciesJdbc(): List<CurrencyJdbcModel> = listOf(sampleCurrencyJdbc())
 
-    private fun sampleCurrencyJdbc(): CurrencyJdbcModel = CurrencyJdbcModel(
+    fun sampleCurrencyJdbc(): CurrencyJdbcModel = CurrencyJdbcModel(
         id = defaultId,
         code = defaultCode,
         description = defaultDescription,
