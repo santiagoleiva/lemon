@@ -3,8 +3,11 @@ package me.lemon.challenge.application.usecase
 import me.lemon.challenge.application.port.`in`.RegisterMovementPortIn
 import me.lemon.challenge.application.port.out.FindCurrencyPortOut
 import me.lemon.challenge.application.port.out.FindUserOutPort
-import me.lemon.challenge.config.exception.CurrencyNotFoundException
+import me.lemon.challenge.application.port.out.RegisterMovementPortOut
+import me.lemon.challenge.application.port.out.UpdateBalancePortOut
+import me.lemon.challenge.config.exception.InvalidCurrencyException
 import me.lemon.challenge.config.exception.InvalidMovementTypeException
+import me.lemon.challenge.config.exception.UnprocessableMovementException
 import me.lemon.challenge.config.exception.UserNotFoundException
 import me.lemon.challenge.domain.Currency
 import me.lemon.challenge.domain.Movement
@@ -18,20 +21,26 @@ import java.math.BigDecimal
 @Component
 class RegisterMovementUseCase(
     private val findUserAdapter: FindUserOutPort,
-    private val findCurrencyAdapter: FindCurrencyPortOut
+    private val findCurrencyAdapter: FindCurrencyPortOut,
+    private val updateBalanceAdapter: UpdateBalancePortOut,
+    private val registerMovementAdapter: RegisterMovementPortOut
 ) : RegisterMovementPortIn {
 
     override fun execute(command: RegisterMovementPortIn.Command): Movement {
         val user = findUser(command.userId)
         val currency = findCurrency(command.currencyCode)
         val type = typeBy(command.movementType)
+        val currentAmount = user.getCurrentAmountInWalletFor(currency)
+        val newBalanceAmount = calculateByType(type, currentAmount, command.amount)
         return Movement(
             user = user,
             currency = currency,
             type = type,
             amount = command.amount,
-            previousBalance = BigDecimal.ZERO
+            previousBalance = currentAmount
         )
+            .also { updateBalanceAdapter.by(it.user, it.currency, newBalanceAmount) }
+            .also { registerMovementAdapter.with(it) }
     }
 
     private fun findUser(userId: Int): User = findUserAdapter
@@ -48,6 +57,25 @@ class RegisterMovementUseCase(
         logger.error("Invalid movement type {}", code, exception)
         throw InvalidMovementTypeException()
     }
+
+    private fun calculateByType(
+        type: MovementType,
+        currentAmount: BigDecimal,
+        movementAmount: BigDecimal
+    ): BigDecimal {
+        val newBalanceAmount = when (type) {
+            MovementType.DEPOSIT -> currentAmount.add(movementAmount)
+            MovementType.EXTRACTION -> currentAmount.minus(movementAmount)
+        }
+        if (newBalanceAmount < BigDecimal.ZERO) throw UnprocessableMovementException()
+        return newBalanceAmount
+    }
+
+    private fun User.getCurrentAmountInWalletFor(currency: Currency): BigDecimal = this
+        .wallet
+        .balances
+        .first { currency == it.currency }
+        .amount
 
     companion object {
         @JvmStatic
