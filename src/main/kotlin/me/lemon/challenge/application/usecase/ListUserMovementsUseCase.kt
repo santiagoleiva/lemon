@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class ListUserMovementsUseCase : ListUserMovementsPortIn {
 
     override fun execute(command: ListUserMovementsPortIn.Command): List<Movement> {
-        TODO("Not yet implemented")
+        return emptyList()
     }
 
 }
