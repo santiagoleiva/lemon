@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component
 
 @Component
 class ListUserMovementsUseCase(
-    private val findUserAdapter: FindUserOutPort,
-    private val listMovementsAdapter: ListMovementsPortOut,
     private val findCurrencyAdapter: FindCurrencyPortOut,
+    private val findUserAdapter: FindUserOutPort,
+    private val listMovementsAdapter: ListMovementsPortOut
 ) : ListUserMovementsPortIn {
 
     override fun execute(command: ListUserMovementsPortIn.Command): List<Movement> {
@@ -34,12 +34,12 @@ class ListUserMovementsUseCase(
             )
     }
 
-    private fun findUserBy(id: Int): User = findUserAdapter
-        .by(id)
-        .orElseThrow { UserNotFoundException() }
-
     private fun String.asCurrency(): Currency = findCurrencyAdapter
         .by(this)
         .orElseThrow { InvalidCurrencyException() }
+
+    private fun findUserBy(id: Int): User = findUserAdapter
+        .by(id)
+        .orElseThrow { UserNotFoundException() }
 
 }
