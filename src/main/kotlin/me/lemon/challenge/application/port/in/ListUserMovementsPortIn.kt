@@ -8,10 +8,10 @@ interface ListUserMovementsPortIn {
 
     data class Command(
         val userId: Int,
-        val limit: Int,
-        val offset: Int,
         val movementType: String,
-        val currency: String
+        val currencyCode: String,
+        val limit: Int,
+        val offset: Int
     )
 
 }

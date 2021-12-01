@@ -59,10 +59,10 @@ class UserMovementControllerAdapter(
         type: String
     ): ListUserMovementsPortIn.Command = ListUserMovementsPortIn.Command(
         userId = userId,
+        movementType = type,
+        currencyCode = currency,
         limit = limit,
-        offset = offset,
-        currency = currency,
-        movementType = type
+        offset = offset
     )
 
 
