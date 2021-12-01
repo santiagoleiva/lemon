@@ -17,7 +17,7 @@ class MovementJdbcAdapter(
     private fun Movement.toJdbcModel(): MovementJdbcModel = MovementJdbcModel(
         userId = this.user.id!!,
         currencyId = this.currency.id,
-        type = this.type.toString(),
+        type = this.type.name,
         amount = this.amount,
         previousBalance = this.previousBalance
     )

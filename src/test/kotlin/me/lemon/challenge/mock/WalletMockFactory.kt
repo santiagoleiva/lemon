@@ -1,9 +1,7 @@
 package me.lemon.challenge.mock
 
 import me.lemon.challenge.adapter.jdbc.model.WalletReferenceJdbcModel
-import me.lemon.challenge.domain.Balance
-import me.lemon.challenge.domain.Currency
-import me.lemon.challenge.domain.Wallet
+import me.lemon.challenge.domain.*
 import java.math.BigDecimal
 
 object WalletMockFactory {
@@ -30,6 +28,14 @@ object WalletMockFactory {
     fun sampleWalletReferenceJdbcInZero(): WalletReferenceJdbcModel = WalletReferenceJdbcModel(
         currencyId = defaultCurrency.id,
         balance = BigDecimal.ZERO
+    )
+
+    fun sampleMovement(): Movement = Movement(
+        user = UserMockFactory.createdWithId(),
+        currency = CurrencyMockFactory.sampleCurrency(),
+        type = MovementType.DEPOSIT,
+        amount = defaultAmount,
+        previousBalance = BigDecimal.ZERO
     )
 
     private fun sampleBalance(): Balance = Balance(
