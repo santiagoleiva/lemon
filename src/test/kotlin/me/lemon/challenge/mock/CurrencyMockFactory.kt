@@ -7,10 +7,10 @@ import java.util.Collections.singletonList
 object CurrencyMockFactory {
 
     @JvmStatic
-    private val defaultId: Int = 1
+    val defaultCurrencyCode: String = "currency-code-test"
 
     @JvmStatic
-    private val defaultCode: String = "currency-code-test"
+    private val defaultCurrencyId: Int = 1
 
     @JvmStatic
     private val defaultDescription: String = "currency-description-test"
@@ -19,8 +19,8 @@ object CurrencyMockFactory {
     private val defaultDecimals: Int = 2
 
     fun sampleCurrency(): Currency = Currency(
-        id = defaultId,
-        code = defaultCode,
+        id = defaultCurrencyId,
+        code = defaultCurrencyCode,
         description = defaultDescription,
         decimals = defaultDecimals
     )
@@ -30,8 +30,8 @@ object CurrencyMockFactory {
     fun currenciesJdbc(): List<CurrencyJdbcModel> = listOf(sampleCurrencyJdbc())
 
     fun sampleCurrencyJdbc(): CurrencyJdbcModel = CurrencyJdbcModel(
-        id = defaultId,
-        code = defaultCode,
+        id = defaultCurrencyId,
+        code = defaultCurrencyCode,
         description = defaultDescription,
         decimals = defaultDecimals
     )

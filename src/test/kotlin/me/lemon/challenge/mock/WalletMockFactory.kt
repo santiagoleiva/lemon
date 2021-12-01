@@ -7,7 +7,10 @@ import java.math.BigDecimal
 object WalletMockFactory {
 
     @JvmStatic
-    private val defaultAmount: BigDecimal = BigDecimal.TEN
+    val defaultMovementType: MovementType = MovementType.DEPOSIT
+
+    @JvmStatic
+    val defaultAmount: BigDecimal = BigDecimal.TEN
 
     @JvmStatic
     private val defaultCurrency: Currency = CurrencyMockFactory.sampleCurrency()
@@ -33,7 +36,7 @@ object WalletMockFactory {
     fun sampleMovement(): Movement = Movement(
         user = UserMockFactory.createdWithId(),
         currency = CurrencyMockFactory.sampleCurrency(),
-        type = MovementType.DEPOSIT,
+        type = defaultMovementType,
         amount = defaultAmount,
         previousBalance = BigDecimal.ZERO
     )

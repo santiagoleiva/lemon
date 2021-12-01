@@ -36,7 +36,7 @@ class CreateUserUseCaseTest {
     @Test
     @DisplayName("User creation should fail if user alias is unavailable.")
     fun testCreateUserWithInvalidAliasShouldFail() {
-        val command = CommandMockFactory.forUserCreation()
+        val command = CommandMockFactory.createUser()
 
         `when`(existsUserAdapter.byAlias(anyString())).thenReturn(true)
         `when`(existsUserAdapter.byEmail(anyString())).thenReturn(false)
@@ -53,7 +53,7 @@ class CreateUserUseCaseTest {
     @Test
     @DisplayName("User creation should fail if user email is unavailable.")
     fun testCreateUserWithInvalidEmailShouldFail() {
-        val command = CommandMockFactory.forUserCreation()
+        val command = CommandMockFactory.createUser()
 
         `when`(existsUserAdapter.byAlias(anyString())).thenReturn(false)
         `when`(existsUserAdapter.byEmail(anyString())).thenReturn(true)
@@ -70,7 +70,7 @@ class CreateUserUseCaseTest {
     @Test
     @DisplayName("Create user with with empty balances in wallet")
     fun testUserCreationSuccessfully() {
-        val command = CommandMockFactory.forUserCreation()
+        val command = CommandMockFactory.createUser()
         val currencies = CurrencyMockFactory.sampleCurrencies()
         val createdWithId = UserMockFactory.createdWithId()
         val expectedWallet = WalletMockFactory.sampleWalletInZero()

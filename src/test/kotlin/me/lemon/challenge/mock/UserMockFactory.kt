@@ -6,7 +6,7 @@ import me.lemon.challenge.domain.User
 object UserMockFactory {
 
     @JvmStatic
-    private val defaultId: Int = 1
+    val defaultUserId: Int = 1
 
     @JvmStatic
     private val defaultFirstname: String = "user-firstname-test"
@@ -28,10 +28,10 @@ object UserMockFactory {
         wallet = WalletMockFactory.sampleWalletInZero()
     )
 
-    fun createdWithId(id: Int = defaultId): User = toCreate()
+    fun createdWithId(id: Int = defaultUserId): User = toCreate()
         .copy(id = id)
 
-    fun sampleUserJdbc(id: Int = defaultId): UserJdbcModel = UserJdbcModel(
+    fun sampleUserJdbc(id: Int = defaultUserId): UserJdbcModel = UserJdbcModel(
         id = id,
         firstname = defaultFirstname,
         lastname = defaultLastname,

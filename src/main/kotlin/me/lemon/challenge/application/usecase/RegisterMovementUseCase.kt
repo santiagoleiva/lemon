@@ -27,12 +27,14 @@ class RegisterMovementUseCase(
 ) : RegisterMovementPortIn {
 
     override fun execute(command: RegisterMovementPortIn.Command): Movement {
-        val currency = findCurrency(command.currencyCode)
-        val movementAmount = command.amount
-        val type = typeByCode(command.movementType)
         val user = findUser(command.userId)
+        val currency = findCurrency(command.currencyCode)
+        val type = typeByCode(command.movementType)
         val currentAmount = user.getCurrentAmountInWalletFor(currency)
+        val movementAmount = command.amount
+
         val newBalanceAmount = calculateByType(type, currentAmount, movementAmount)
+
         return Movement(user, currency, type, movementAmount, currentAmount)
             .also { updateBalanceAdapter.by(it.user, it.currency, newBalanceAmount) }
             .also { registerMovementAdapter.with(it) }
@@ -59,8 +61,8 @@ class RegisterMovementUseCase(
         movementAmount: BigDecimal
     ): BigDecimal {
         val newBalanceAmount = when (type) {
-            MovementType.DEPOSIT -> currentAmount.add(movementAmount)
-            MovementType.EXTRACTION -> currentAmount.minus(movementAmount)
+            MovementType.DEPOSIT -> currentAmount + movementAmount
+            MovementType.WITHDRAW -> currentAmount - movementAmount
         }
         if (newBalanceAmount < BigDecimal.ZERO) throw UnprocessableMovementException()
         return newBalanceAmount
