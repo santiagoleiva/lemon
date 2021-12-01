@@ -1,5 +1,6 @@
 package me.lemon.challenge.adapter.controller
 
+import me.lemon.challenge.adapter.controller.model.MovementControllerModel
 import me.lemon.challenge.adapter.controller.model.RegisterMovementControllerModel
 import me.lemon.challenge.application.port.`in`.RegisterMovementPortIn
 import org.slf4j.Logger
@@ -17,10 +18,11 @@ class UserMovementControllerAdapter(
     fun createMovement(
         @PathVariable userId: Int,
         @RequestBody request: RegisterMovementControllerModel
-    ): ResponseEntity<*> = toCommand(userId, request)
+    ): ResponseEntity<MovementControllerModel> = toCommand(userId, request)
         .also { logger.info("Attempt to register movement for user {} with request {}", userId, request) }
         .let { command -> registerMovementPortIn.execute(command) }
-        .let { movement -> ResponseEntity.ok().body(movement) }
+        .let { movement -> MovementControllerModel.from(movement) }
+        .let { movementControllerModel -> ResponseEntity.ok().body(movementControllerModel) }
         .also { response -> logger.info("Movement registered successfully: {}", response) }
 
     private fun toCommand(
