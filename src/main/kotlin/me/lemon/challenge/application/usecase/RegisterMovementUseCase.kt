@@ -6,15 +6,12 @@ import me.lemon.challenge.application.port.out.FindUserOutPort
 import me.lemon.challenge.application.port.out.RegisterMovementPortOut
 import me.lemon.challenge.application.port.out.UpdateBalancePortOut
 import me.lemon.challenge.config.exception.InvalidCurrencyException
-import me.lemon.challenge.config.exception.InvalidMovementTypeException
 import me.lemon.challenge.config.exception.UnprocessableMovementException
 import me.lemon.challenge.config.exception.UserNotFoundException
 import me.lemon.challenge.domain.Currency
 import me.lemon.challenge.domain.Movement
 import me.lemon.challenge.domain.MovementType
 import me.lemon.challenge.domain.User
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 
@@ -29,7 +26,7 @@ class RegisterMovementUseCase(
     override fun execute(command: RegisterMovementPortIn.Command): Movement {
         val user = findUser(command.userId)
         val currency = findCurrency(command.currencyCode)
-        val type = typeByCode(command.movementType)
+        val type = MovementType.getBy(command.movementTypeCode)
         val currentAmount = user.getCurrentAmountInWalletFor(currency)
         val movementAmount = command.amount
 
@@ -47,13 +44,6 @@ class RegisterMovementUseCase(
     private fun findCurrency(currencyCode: String): Currency = findCurrencyAdapter
         .by(currencyCode)
         .orElseThrow { InvalidCurrencyException() }
-
-    private fun typeByCode(code: String) = try {
-        MovementType.valueOf(code)
-    } catch (exception: IllegalArgumentException) {
-        logger.error("Invalid movement type {}", code, exception)
-        throw InvalidMovementTypeException()
-    }
 
     private fun calculateByType(
         type: MovementType,
@@ -73,10 +63,5 @@ class RegisterMovementUseCase(
         .balances
         .first { currency == it.currency }
         .amount
-
-    companion object {
-        @JvmStatic
-        private val logger: Logger = LoggerFactory.getLogger(RegisterMovementUseCase::class.java)
-    }
 
 }

@@ -3,7 +3,11 @@ package me.lemon.challenge.adapter.jdbc
 import me.lemon.challenge.adapter.jdbc.model.MovementJdbcModel
 import me.lemon.challenge.application.port.out.ListMovementsPortOut
 import me.lemon.challenge.application.port.out.RegisterMovementPortOut
+import me.lemon.challenge.domain.Currency
 import me.lemon.challenge.domain.Movement
+import me.lemon.challenge.domain.MovementType
+import me.lemon.challenge.domain.User
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 
 @Component
@@ -15,8 +19,25 @@ class MovementJdbcAdapter(
         movementJdbcRepository.save(movement.toJdbcModel())
     }
 
-    override fun by(user: Int, type: String, currency: String, limit: Int, offset: Int): List<Movement> {
-        return emptyList()
+    override fun by(user: User, type: MovementType, currency: Currency, limit: Int, offset: Int): List<Movement> {
+        val page = offset - 1
+        val pageRequest = PageRequest.of(page, limit)
+        return movementJdbcRepository
+            .findByUserIdAndTypeAndCurrencyIdOrderByCreatedAtDesc(
+                userId = user.id!!,
+                type = type.name,
+                currencyId = currency.id,
+                pageable = pageRequest
+            )
+            .map { jdbcModel ->
+                Movement(
+                    user = user,
+                    currency = currency,
+                    type = type,
+                    amount = jdbcModel.amount,
+                    previousBalance = jdbcModel.previousBalance
+                )
+            }
     }
 
     private fun Movement.toJdbcModel(): MovementJdbcModel = MovementJdbcModel(

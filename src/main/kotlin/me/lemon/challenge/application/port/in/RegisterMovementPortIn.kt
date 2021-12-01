@@ -10,7 +10,7 @@ interface RegisterMovementPortIn {
     data class Command(
         val userId: Int,
         val currencyCode: String,
-        val movementType: String,
+        val movementTypeCode: String,
         val amount: BigDecimal
     )
 

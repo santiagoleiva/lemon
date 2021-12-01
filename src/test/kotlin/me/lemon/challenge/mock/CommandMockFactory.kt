@@ -17,16 +17,16 @@ object CommandMockFactory {
     fun registerMovement(): RegisterMovementPortIn.Command = RegisterMovementPortIn.Command(
         userId = UserMockFactory.defaultUserId,
         currencyCode = CurrencyMockFactory.defaultCurrencyCode,
-        movementType = WalletMockFactory.defaultMovementType.name,
+        movementTypeCode = WalletMockFactory.defaultMovementType.name,
         amount = WalletMockFactory.defaultAmount,
     )
 
     fun registerMovementWithInvalidType(): RegisterMovementPortIn.Command = registerMovement()
-        .copy(movementType = "INVALID_MOVEMENT_TYPE")
+        .copy(movementTypeCode = "INVALID_MOVEMENT_TYPE")
 
     fun registerMovementAmountGreaterThanBalance(): RegisterMovementPortIn.Command = registerMovement()
         .copy(
-            movementType = MovementType.WITHDRAW.name,
+            movementTypeCode = MovementType.WITHDRAW.name,
             amount = BigDecimal(Int.MAX_VALUE)
         )
 }
