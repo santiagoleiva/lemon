@@ -20,8 +20,7 @@ class MovementJdbcAdapter(
     }
 
     override fun by(user: User, type: MovementType, currency: Currency, limit: Int, offset: Int): List<Movement> {
-        val page = offset - 1
-        val pageRequest = PageRequest.of(page, limit)
+        val pageRequest = PageRequest.of(offset, limit)
         return movementJdbcRepository
             .findByUserIdAndTypeAndCurrencyIdOrderByCreatedAtDesc(
                 userId = user.id!!,

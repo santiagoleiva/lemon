@@ -31,7 +31,7 @@ class UserMovementControllerAdapter(
     fun getMovements(
         @PathVariable userId: Int,
         @RequestParam(defaultValue = "10") limit: Int,
-        @RequestParam(defaultValue = "1") offset: Int,
+        @RequestParam(defaultValue = "0") offset: Int,
         @RequestParam currency: String,
         @RequestParam type: String
     ): ResponseEntity<List<MovementControllerModel>> = toListCommand(userId, limit, offset, currency, type)
