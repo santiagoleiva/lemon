@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
 
@@ -15,6 +15,11 @@ services:
     volumes:
       - './src/main/resources/sql/01-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql'
       - './src/main/resources/sql/02-data.sql:/docker-entrypoint-initdb.d/02-data.sql'
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=lemon --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 10
 
   lemon-api:
     build:
@@ -29,4 +34,5 @@ services:
       LEMON_DATABASE_PASSWORD: lemon
       LEMON_DATABASE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
     depends_on:
-      - lemon-db
+      lemon-db:
+        condition: service_healthy
