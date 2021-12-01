@@ -32,7 +32,7 @@ class RegisterMovementUseCase(
 
         val newBalanceAmount = calculateByType(type, currentAmount, movementAmount)
 
-        return Movement(user, currency, type, movementAmount, currentAmount)
+        return Movement.with(user, currency, type, movementAmount, currentAmount)
             .also { updateBalanceAdapter.by(it.user, it.currency, newBalanceAmount) }
             .also { registerMovementAdapter.with(it) }
     }

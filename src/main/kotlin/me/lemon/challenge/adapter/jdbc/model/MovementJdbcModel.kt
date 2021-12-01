@@ -13,5 +13,5 @@ data class MovementJdbcModel(
     val type: String,
     val amount: BigDecimal,
     val previousBalance: BigDecimal,
-    val createdAt: LocalDateTime = LocalDateTime.now()
+    val createdAt: LocalDateTime
 )

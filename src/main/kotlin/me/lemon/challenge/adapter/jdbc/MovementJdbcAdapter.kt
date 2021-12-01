@@ -31,11 +31,13 @@ class MovementJdbcAdapter(
             )
             .map { jdbcModel ->
                 Movement(
+                    id = jdbcModel.id,
                     user = user,
                     currency = currency,
                     type = type,
                     amount = jdbcModel.amount,
-                    previousBalance = jdbcModel.previousBalance
+                    previousBalance = jdbcModel.previousBalance,
+                    createdAt = jdbcModel.createdAt
                 )
             }
     }
@@ -45,7 +47,8 @@ class MovementJdbcAdapter(
         currencyId = this.currency.id,
         type = this.type.name,
         amount = this.amount,
-        previousBalance = this.previousBalance
+        previousBalance = this.previousBalance,
+        createdAt = this.createdAt
     )
 
 }
