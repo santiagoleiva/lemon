@@ -2,8 +2,9 @@ version: '3'
 
 services:
 
-  database:
+  lemon-db:
     image: mysql:8.0.27
+    container_name: lemon-db
     ports:
       - '3306:3306'
     environment:
@@ -14,3 +15,18 @@ services:
     volumes:
       - './src/main/resources/sql/01-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql'
       - './src/main/resources/sql/02-data.sql:/docker-entrypoint-initdb.d/02-data.sql'
+
+  lemon-api:
+    build:
+      context: .
+      dockerfile: api.Dockerfile
+    container_name: lemon-api
+    ports:
+      - '8080:8080'
+    environment:
+      LEMON_DATABASE_URL: jdbc:mysql://lemon-db:3306/lemon
+      LEMON_DATABASE_USER: lemon
+      LEMON_DATABASE_PASSWORD: lemon
+      LEMON_DATABASE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+    depends_on:
+      - lemon-db
