@@ -170,12 +170,12 @@
 
 ### Parámetros de consulta
 
-|Parámetro|Tipo|Requerido|Valores posibles|
-|---|---|---|---|
-|currency|String|NO|**ARS** - **USDT** - **BTC**|
-|type|String|NO|**DEPOSIT** - **WITHDRAW**|
-|limit|Integer|NO|10 (Valor por defecto)|
-|offset|Integer|NO|0 (Valor por defecto)|
+|Parámetro|Tipo|Valores posibles|
+|---|---|---|
+|currency|String|**ARS** - **USDT** - **BTC**|
+|type|String|**DEPOSIT** - **WITHDRAW**|
+|limit|Integer|10 (Valor por defecto)|
+|offset|Integer|0 (Valor por defecto)|
 
 ### Ejemplos de respuesta
 
