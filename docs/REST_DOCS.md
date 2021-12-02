@@ -168,10 +168,54 @@
 
 `GET /api/v1/users/1/movements`
 
-### Filtros de consulta
+### Parámetros de consulta
+
+|Parámetro|Tipo|Requerido|Valores posibles|
+|---|---|---|---|
+|currency|String|NO|**ARS** - **USDT** - **BTC**|
+|type|String|NO|**DEPOSIT** - **WITHDRAW**|
+|limit|Integer|NO|10 (Valor por defecto)|
+|offset|Integer|NO|0 (Valor por defecto)|
 
 ### Ejemplos de respuesta
 
 - Petición exitosa
 
+`200 OK`
+
+```json
+[
+  {
+    "id": 7,
+    "currency": "ARS",
+    "type": "DEPOSIT",
+    "amount": "50.00",
+    "created_at": "2021-12-01T21:20:30"
+  },
+  {
+    "id": 6,
+    "currency": "ARS",
+    "type": "DEPOSIT",
+    "amount": "50.00",
+    "created_at": "2021-12-01T21:20:29"
+  },
+  {
+    "id": 5,
+    "currency": "ARS",
+    "type": "DEPOSIT",
+    "amount": "50.00",
+    "created_at": "2021-12-01T21:20:27"
+  }
+]
+```
+
 - Respuestas para casos de error
+
+`500 Internal Server Error`
+
+```json
+{
+  "code": "INTERNAL_ERROR",
+  "message": "Ha ocurrido un error inesperado"
+}
+```
