@@ -170,7 +170,7 @@
 
 ### Parámetros de consulta
 
-|Parámetro|Tipo|Valores posibles|
+|Parámetro|Tipo|Valores|
 |---|---|---|
 |currency|String|**ARS** - **USDT** - **BTC**|
 |type|String|**DEPOSIT** - **WITHDRAW**|
